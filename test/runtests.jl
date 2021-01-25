@@ -2,20 +2,20 @@ using Test
 using XLSX: readxlsx
 using DataFrames
 using Mimi
-using MimiDICE2016
+using MimiDICE2016R2R2
 using CSVFiles
 
-using MimiDICE2016: getparams
+using MimiDICE2016R2: getparams
 
-@testset "MimiDICE2016" begin
+@testset "MimiDICE2016R2" begin
 
 #------------------------------------------------------------------------------
 #   1. Run tests on the whole model
 #------------------------------------------------------------------------------
 
-@testset "MimiDICE2016-model" begin
+@testset "MimiDICE2016R2-model" begin
 
-m = MimiDICE2016.get_model();
+m = MimiDICE2016R2.get_model();
 run(m)
 
 f = readxlsx(joinpath(@__DIR__, "../data/DICE2016R-090916ap-v2.xlsm"))
@@ -70,7 +70,7 @@ True_FORC = getparams(f, "B100:CW100", :all, "Base", T);
 True_UTILITY = getparams(f, "B129:B129", :single, "Base", T);
 @test maximum(abs, m[:welfare, :UTILITY] .- True_UTILITY) ≈ 0. atol = Precision
 
-end #MimiDICE2016-model testset
+end #MimiDICE2016R2-model testset
 
 #------------------------------------------------------------------------------
 #   2. Run tests on SCC
@@ -78,43 +78,43 @@ end #MimiDICE2016-model testset
 
 @testset "Standard API" begin
 
-m = MimiDICE2016.get_model()
+m = MimiDICE2016R2.get_model()
 run(m)
 
 # Test the errors
-@test_throws ErrorException MimiDICE2016.compute_scc()  # test that it errors if you don't specify a year
-@test_throws ErrorException MimiDICE2016.compute_scc(year=2021)  # test that it errors if the year isn't in the time index
-@test_throws ErrorException MimiDICE2016.compute_scc(last_year=2299)  # test that it errors if the last_year isn't in the time index
-@test_throws ErrorException MimiDICE2016.compute_scc(year=2105, last_year=2100)  # test that it errors if the year is after last_year
+@test_throws ErrorException MimiDICE2016R2.compute_scc()  # test that it errors if you don't specify a year
+@test_throws ErrorException MimiDICE2016R2.compute_scc(year=2021)  # test that it errors if the year isn't in the time index
+@test_throws ErrorException MimiDICE2016R2.compute_scc(last_year=2299)  # test that it errors if the last_year isn't in the time index
+@test_throws ErrorException MimiDICE2016R2.compute_scc(year=2105, last_year=2100)  # test that it errors if the year is after last_year
 
 # Test the SCC 
-scc1 = MimiDICE2016.compute_scc(year=2020)
+scc1 = MimiDICE2016R2.compute_scc(year=2020)
 @test scc1 isa Float64
 
 # Test that it's smaller with a shorter horizon
-scc2 = MimiDICE2016.compute_scc(year=2020, last_year=2200)
+scc2 = MimiDICE2016R2.compute_scc(year=2020, last_year=2200)
 @test scc2 < scc1
 
 # Test that it's smaller with a larger prtp
-scc3 = MimiDICE2016.compute_scc(year=2020, last_year=2200, prtp=0.02)
+scc3 = MimiDICE2016R2.compute_scc(year=2020, last_year=2200, prtp=0.02)
 @test scc3 < scc2
 
 # Test with a modified model 
-m = MimiDICE2016.get_model()
+m = MimiDICE2016R2.get_model()
 update_param!(m, :t2xco2, 5)    
-scc4 = MimiDICE2016.compute_scc(m, year=2020)
+scc4 = MimiDICE2016R2.compute_scc(m, year=2020)
 @test scc4 > scc1   # Test that a higher value of climate sensitivty makes the SCC bigger
 
 # Test compute_scc_mm
-result = MimiDICE2016.compute_scc_mm(year=2030)
+result = MimiDICE2016R2.compute_scc_mm(year=2030)
 @test result.scc isa Float64
 @test result.mm isa Mimi.MarginalModel
 marginal_temp = result.mm[:climatedynamics, :TATM]
-@test all(marginal_temp[1:findfirst(isequal(2030), MimiDICE2016.model_years)] .== 0.)
-@test all(marginal_temp[findfirst(isequal(2035), MimiDICE2016.model_years):end] .!= 0.)
+@test all(marginal_temp[1:findfirst(isequal(2030), MimiDICE2016R2.model_years)] .== 0.)
+@test all(marginal_temp[findfirst(isequal(2035), MimiDICE2016R2.model_years):end] .!= 0.)
 
 end
 
-end #MimiDICE2016 testset
+end #MimiDICE2016R2 testset
 
 nothing

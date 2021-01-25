@@ -1,7 +1,7 @@
 using Mimi
-using MimiDICE2016
+using MimiDICE2016R2
 
-DICE = MimiDICE2016.get_model()
+DICE = MimiDICE2016R2.get_model()
 run(DICE)
 
 explore(DICE)

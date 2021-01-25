@@ -1,8 +1,8 @@
 """
 compute_scc(m::Model=get_model(); year::Int = nothing, last_year::Int = 2510), prtp::Float64 = 0.03)
 
-Computes the social cost of CO2 for an emissions pulse in `year` for the provided MimiDICE2016 model. 
-If no model is provided, the default model from MimiDICE2016.get_model() is used.
+Computes the social cost of CO2 for an emissions pulse in `year` for the provided MimiDICE2016R2 model. 
+If no model is provided, the default model from MimiDICE2016R2.get_model() is used.
 Constant discounting is used from the specified pure rate of time preference `prtp`.
 """
 function compute_scc(m::Model=get_model(); year::Union{Int, Nothing} = nothing, last_year::Int = model_years[end], prtp::Float64 = 0.015, eta=1.45)
@@ -19,8 +19,8 @@ end
 compute_scc_mm(m::Model=get_model(); year::Int = nothing, last_year::Int = 2510, prtp::Float64 = 0.03)
 
 Returns a NamedTuple (scc=scc, mm=mm) of the social cost of carbon and the MarginalModel used to compute it.
-Computes the social cost of CO2 for an emissions pulse in `year` for the provided MimiDICE2016 model. 
-If no model is provided, the default model from MimiDICE2016.get_model() is used.
+Computes the social cost of CO2 for an emissions pulse in `year` for the provided MimiDICE2016R2 model. 
+If no model is provided, the default model from MimiDICE2016R2.get_model() is used.
 Constant discounting is used from the specified pure rate of time preference `prtp`.
 """
 function compute_scc_mm(m::Model=get_model(); year::Union{Int, Nothing} = nothing, last_year::Int = model_years[end], prtp::Float64 = 0.015, eta=1.45)
@@ -54,7 +54,7 @@ end
 get_marginal_model(m::Model = get_model(); year::Int = nothing)
 
 Creates a Mimi MarginalModel where the provided m is the base model, and the marginal model has additional emissions of CO2 in year `year`.
-If no Model m is provided, the default model from MimiDICE2016.get_model() is used as the base model.
+If no Model m is provided, the default model from MimiDICE2016R2.get_model() is used as the base model.
 """
 function get_marginal_model(m::Model=get_model(); year::Union{Int, Nothing} = nothing)
     year === nothing ? error("Must specify an emission year. Try `get_marginal_model(m, year=2015)`.") : nothing

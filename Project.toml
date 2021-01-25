@@ -1,15 +1,15 @@
-name = "MimiDICE2016"
-uuid = "ab869bb0-c23d-11e9-310e-47ac58ee0562"
+name = "MimiDICE2016R2"
+uuid = "f1883be1-2b67-40c7-aa52-23bf8bdba39c"
 authors = ["AlexandrePavlov <54249238+AlexandrePavlov@users.noreply.github.com>"]
-version = "0.2.0"
+version = "0.1.0"
 
 [deps]
 Mimi = "e4e893b0-ee5e-52ea-8111-44b3bdec128c"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
-Mimi = "0.10, 1"
-julia = "1.4"
+Mimi = "1"
+julia = "1.5"
 XLSX = "0.7.2"
 
 [extras]

@@ -1,4 +1,4 @@
-module MimiDICE2016
+module MimiDICE2016R2
 
 using Mimi
 using XLSX: readxlsx

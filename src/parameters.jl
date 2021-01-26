@@ -5,7 +5,6 @@ function getdice2016excelparameters(filename)
 
     T = 100
 
-    #Open DICE_2016 Excel File to Read Parameters
     f = readxlsx(filename)
 
 	p[:a0]			= getparams(f, "B108:B108", :single, "Parameters",1)#Initial level of total factor productivity
@@ -65,7 +64,6 @@ function getdice2016gamsparameters(gamsfilename, excelfilename)
 
     T = 100
 
-    #Open DICE_2016 Excel File to Read Parameters
     fg = readxlsx(gamsfilename)
     sheet = "DICE2016_Base"
 

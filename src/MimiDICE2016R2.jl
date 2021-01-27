@@ -18,7 +18,7 @@ include("components/damages_component.jl")
 include("components/neteconomy_component.jl")
 include("components/welfare_component.jl")
 
-export constructdice, getdiceexcel
+export constructdice, getdiceexcel, getdicegams
 
 const model_years = 2015:5:2510
 
@@ -76,6 +76,14 @@ end
 
 function getdiceexcel(;datafile = joinpath(dirname(@__FILE__), "..", "data", "DICE2016R-090916ap-v2_R2update.xlsm"))
     params = getdice2016excelparameters(datafile)
+
+    m = constructdice(params)
+
+    return m
+end
+
+function getdicegams(;params_datafile = joinpath(dirname(@__FILE__), "..", "data", "DICE2016R-090916ap-v2_R2update.xlsm"), optim_datafile = joinpath(dirname(@__FILE__), "..", "data", "DICE2016R2-GAMS-Results-formatted.csv"))
+    params = getdice2016gamsparameters(params_datafile, optim_datafile)
 
     m = constructdice(params)
 

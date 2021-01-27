@@ -4,13 +4,15 @@ authors = ["AlexandrePavlov <54249238+AlexandrePavlov@users.noreply.github.com>"
 version = "0.1.0"
 
 [deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Mimi = "e4e893b0-ee5e-52ea-8111-44b3bdec128c"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
 Mimi = "1"
-julia = "1.5"
 XLSX = "0.7.2"
+julia = "1.5"
+DataFrames = "0.21.8"
 
 [extras]
 CSVFiles = "5d742f6a-9f54-50ce-8119-2520741973ca"

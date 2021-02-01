@@ -73,11 +73,11 @@ True_UTILITY = getparams(f, "B129:B129", :single, "Base", T);
 end #MimiDICE2016R2-excel-model testset
 
 #------------------------------------------------------------------------------
-#   2. Run tests on the whole gams model
+#   2. Run tests on the whole gams model (v1 from Mariia)
 #------------------------------------------------------------------------------
-@testset "MimiDICE2016R2-gams-model" begin
+@testset "MimiDICE2016R2-gams-model_v1" begin
 
-m = MimiDICE2016R2.getdicegams();
+m = MimiDICE2016R2.getdicegamsv1();
 run(m)
 
 gams_results = CSVFiles.load(joinpath(@__DIR__, "../data/DICE2016R2-GAMS-Results-formatted.csv")) |> DataFrame
@@ -153,10 +153,82 @@ True_ML = gams_results[:ML];
 True_TOCEAN = gams_results[:TOCEAN];
 @test maximum(abs, m[:climatedynamics, :TOCEAN] .- True_TOCEAN) ≈ 0. atol = Precision
 
-end #MimiDICE2016R2-gams-model testset
+end #MimiDICE2016R2-gams-model-v1 testset
 
 #------------------------------------------------------------------------------
-#   3. Run tests on SCC
+#   3. Run tests on the whole gams model (v2 from Online OnlineAppendix_TableA4)
+#------------------------------------------------------------------------------
+@testset "MimiDICE2016R2-gams-model_v2" begin
+
+m = MimiDICE2016R2.getdicegamsv2();
+run(m)
+
+gams_results = CSVFiles.load(joinpath(@__DIR__, "../data/OnlineAppendix_TableA4.csv")) |> DataFrame
+
+#Time Periods
+T=18
+
+#TATM Test (temperature increase)
+True_TATM = gams_results[:TATM];
+@test maximum(abs, m[:climatedynamics, :TATM] .- True_TATM) ≈ 0. atol = 1e-2
+
+#MAT Test (carbon concentration atmosphere)
+True_MAT = gams_results[:MAT];
+@test maximum(abs, m[:co2cycle, :MAT] .- True_MAT) ≈ 0. atol = 1
+
+#DAMFRAC Test (damages fraction)
+True_DAMFRAC = gams_results[:DAMFRAC];
+@test maximum(abs, m[:damages, :DAMFRAC] .- True_DAMFRAC) ≈ 0. atol = 1e-4
+
+#DAMAGES Test (damages $)
+True_DAMAGES = gams_results[:DAMAGES];
+@test maximum(abs, m[:damages, :DAMAGES] .- True_DAMAGES) ≈ 0. atol = 1e-2 # fails
+
+#E Test (emissions)
+True_E = gams_results[:E];
+@test maximum(abs, m[:emissions, :E] .- True_E) ≈ 0. atol = 1
+
+#YGROSS Test (gross output)
+True_YGROSS = gams_results[:YGROSS];
+@test maximum(abs, m[:grosseconomy, :YGROSS] .- True_YGROSS) ≈ 0. atol = 1 #fails
+
+#CPC Test (per capita consumption)
+True_CPC = gams_results[:CPC];
+@test maximum(abs, m[:neteconomy, :CPC] .- True_CPC) ≈ 0. atol = 1e-2 #fails
+
+#FORCOTH Test (exogenous forcing)
+True_FORCOTH = gams_results[:FORCOTH];
+@test maximum(abs, m[:radiativeforcing, :FORCOTH] .- True_FORCOTH) ≈ 0. atol = 1e-2
+
+#FORC Test (radiative forcing)
+True_FORC = gams_results[:FORC];
+@test maximum(abs, m[:radiativeforcing, :FORC] .- True_FORC) ≈ 0. atol = 1e-2
+
+#Utility Test - UTILITY in our Dice won't be computer until timestep 100
+# True_UTILITY = gams_results[:UTILITY][1];
+# @test maximum(abs, m[:welfare, :UTILITY] .- True_UTILITY) ≈ 0. atol = 1e-2 
+
+# Other tests provided from gams
+
+True_EIND = gams_results[:EIND];
+@test maximum(abs, m[:emissions, :EIND] .- True_EIND) ≈ 0. atol = 1e-1 #fails
+
+True_ETREE= gams_results[:ETREE];
+@test maximum(abs, m[:emissions, :ETREE] .- True_ETREE) ≈ 0. atol = 1e-2
+
+True_K = gams_results[:K];
+@test maximum(abs, m[:grosseconomy, :K] .- True_K) ≈ 0. atol = 1 #fails
+
+True_I = gams_results[:I];
+@test maximum(abs, m[:neteconomy, :I] .- True_I) ≈ 0. atol = 1e-1 #fails
+
+True_C = gams_results[:C];
+@test maximum(abs, m[:neteconomy, :C] .- True_C) ≈ 0. atol = 1e-1 #fails
+
+end #test set
+
+#------------------------------------------------------------------------------
+#   4. Run tests on SCC
 #------------------------------------------------------------------------------
 
 @testset "Standard API" begin

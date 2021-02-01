@@ -22,11 +22,11 @@ export constructdice, getdiceexcel, getdicegams
 
 const model_years = 2015:5:2510
 
-function constructdice(params)
+function constructdice(params; replace_years = nothing)
 
     m = Model()
     set_dimension!(m, :time, model_years)
-
+    !isnothing(replace_years) ? set_dimension!(m, :time, replace_years) : nothing
     #--------------------------------------------------------------------------
     # Add components in order
     #--------------------------------------------------------------------------
@@ -82,10 +82,18 @@ function getdiceexcel(;datafile = joinpath(dirname(@__FILE__), "..", "data", "DI
     return m
 end
 
-function getdicegams(;params_datafile = joinpath(dirname(@__FILE__), "..", "data", "DICE2016R-090916ap-v2_R2update.xlsm"), optim_datafile = joinpath(dirname(@__FILE__), "..", "data", "DICE2016R2-GAMS-Results-formatted.csv"))
-    params = getdice2016gamsparameters(params_datafile, optim_datafile)
+function getdicegamsv1(;params_datafile = joinpath(dirname(@__FILE__), "..", "data", "DICE2016R-090916ap-v2_R2update.xlsm"), optim_datafile = joinpath(dirname(@__FILE__), "..", "data", "DICE2016R2-GAMS-Results-formatted.csv"))
+    params = getdice2016gamsparametersv1(params_datafile, optim_datafile)
 
     m = constructdice(params)
+
+    return m
+end
+
+function getdicegamsv2(;params_datafile = joinpath(dirname(@__FILE__), "..", "data", "DICE2016R-090916ap-v2_R2update.xlsm"), optim_datafile = joinpath(dirname(@__FILE__), "..", "data", "OnlineAppendix_TableA4.csv"))
+    params = getdice2016gamsparametersv2(params_datafile, optim_datafile)
+
+    m = constructdice(params; replace_years = 2015:5:2100)
 
     return m
 end

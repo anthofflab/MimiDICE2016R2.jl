@@ -4,8 +4,7 @@ This repository is a work-in-progress implementation of the DICE 2016R model, or
 
 Nordhaus, William. 2018. "Projections and Uncertainties about Climate Change in an Era of Minimal Climate Policies." American Economic Journal: Economic Policy, 10 (3): 333-60.
 
-**As of now this is a WIP, as we are still working on getting testing of our outputs to properly match the outputs of the GAMS model runs. Anyone interested in helping with this effort is welcome to reach out! 
-**
+**As of now this is a WIP, as we are still working on getting testing of our outputs to properly match the outputs of the GAMS model runs. Anyone interested in helping with this effort is encouraged to reach out!**
 
 ## Software Requirements
 

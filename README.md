@@ -9,7 +9,7 @@ You need to install [Julia 1.1.0](https://julialang.org) or newer to run this mo
 To install MimiDICE2016R2.jl, you need to run the following command at the julia package REPL:
 
 ```julia
-pkg> add MimiDICE2016R2
+pkg> add https://github.com/anthofflab/MimiDICE2016R2.jl
 ```
 
 You probably also want to install the Mimi package into your julia environment, so that you can use some of the tools in there:

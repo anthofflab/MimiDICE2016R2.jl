@@ -1,5 +1,5 @@
 """
-compute_scc(m::Model=get_model(); year::Int = nothing, last_year::Int = 2510), prtp::Float64 = 0.03)
+    compute_scc(m::Model=get_model(); year::Union{Int, Nothing} = nothing, last_year::Int = model_years[end], prtp::Float64 = 0.015, eta=1.45)
 
 Computes the social cost of CO2 for an emissions pulse in `year` for the provided MimiDICE2016R2 model. 
 If no model is provided, the default model from MimiDICE2016R2.get_model() is used.
@@ -16,7 +16,7 @@ function compute_scc(m::Model=get_model(); year::Union{Int, Nothing} = nothing, 
 end
 
 """
-compute_scc_mm(m::Model=get_model(); year::Int = nothing, last_year::Int = 2510, prtp::Float64 = 0.03)
+    compute_scc_mm(m::Model=get_model(); year::Union{Int, Nothing} = nothing, last_year::Int = model_years[end], prtp::Float64 = 0.015, eta=1.45)
 
 Returns a NamedTuple (scc=scc, mm=mm) of the social cost of carbon and the MarginalModel used to compute it.
 Computes the social cost of CO2 for an emissions pulse in `year` for the provided MimiDICE2016R2 model. 
@@ -39,7 +39,9 @@ function _compute_scc(mm::MarginalModel; year::Int, last_year::Int, prtp::Float6
     ntimesteps = findfirst(isequal(last_year), model_years)     # Will run through the timestep of the specified last_year 
     run(mm, ntimesteps=ntimesteps)
 
-    marginal_damages = -1 * mm[:neteconomy, :C][1:ntimesteps] * 1e12     # Go from trillion$ to $; multiply by -1 so that damages are positive; pulse was in CO2 so we don't need to multiply by 12/44
+    # Go from trillion$ to $; multiply by -1 so that damages are positive; pulse 
+    # was in CO2 so we don't need to multiply by 12/44
+    marginal_damages = -1 * mm[:neteconomy, :C][1:ntimesteps] * 1e12    
 
     cpc = mm.base[:neteconomy, :CPC]
 
@@ -51,7 +53,7 @@ function _compute_scc(mm::MarginalModel; year::Int, last_year::Int, prtp::Float6
 end
 
 """
-get_marginal_model(m::Model = get_model(); year::Int = nothing)
+    get_marginal_model(m::Model=get_model(); year::Union{Int, Nothing} = nothing)
 
 Creates a Mimi MarginalModel where the provided m is the base model, and the marginal model has additional emissions of CO2 in year `year`.
 If no Model m is provided, the default model from MimiDICE2016R2.get_model() is used as the base model.
@@ -60,6 +62,9 @@ function get_marginal_model(m::Model=get_model(); year::Union{Int, Nothing} = no
     year === nothing ? error("Must specify an emission year. Try `get_marginal_model(m, year=2015)`.") : nothing
     !(year in model_years) ? error("Cannot add marginal emissions in $year, year must be within the model's time index $(model_years[1]):10:$last_year.") : nothing
 
+    # note here that the pulse size will be used as the `delta` parameter for 
+    # the `MarginalModel` and thus allow computation of the SCC to return units of
+    # dollars per ton, as long as `pulse_size` is in tons
     mm = create_marginal_model(m, 5 * 1e9)    # 1 GtCO2 per year for 5 years, so 5 * 10^9
     add_marginal_emissions!(mm.modified, year)
 
@@ -67,6 +72,8 @@ function get_marginal_model(m::Model=get_model(); year::Union{Int, Nothing} = no
 end
 
 """
+    add_marginal_emissions!(m::Model, year::Int) 
+
 Adds a marginal emission component to year m which adds 1Gt of additional CO2 emissions per year for five years starting in the specified `year`.
 """
 function add_marginal_emissions!(m::Model, year::Int) 

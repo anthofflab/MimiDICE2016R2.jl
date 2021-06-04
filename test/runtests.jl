@@ -101,7 +101,7 @@ scc3 = MimiDICE2016R2.compute_scc(year=2020, last_year=2200, prtp=0.02)
 
 # Test with a modified model 
 m = MimiDICE2016R2.get_model()
-update_param!(m, :t2xco2, 5)    
+update_param!(m, :t2xco2, 5)
 scc4 = MimiDICE2016R2.compute_scc(m, year=2020)
 @test scc4 > scc1   # Test that a higher value of climate sensitivty makes the SCC bigger
 

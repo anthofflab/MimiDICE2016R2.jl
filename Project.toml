@@ -1,7 +1,7 @@
 name = "MimiDICE2016R2"
 uuid = "f1883be1-2b67-40c7-aa52-23bf8bdba39c"
 authors = ["AlexandrePavlov <54249238+AlexandrePavlov@users.noreply.github.com>"]
-version = "0.1.0"
+version = "0.1.1-DEV"
 
 [deps]
 Mimi = "e4e893b0-ee5e-52ea-8111-44b3bdec128c"

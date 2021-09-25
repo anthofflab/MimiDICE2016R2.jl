@@ -93,4 +93,6 @@ end
 # get_model function for standard Mimi API: use the Excel version
 get_model = getdiceexcel
 
+include("mcs.jl")
+
 end # module

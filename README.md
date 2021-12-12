@@ -1,6 +1,6 @@
 # MimiDICE2016R2
  
-This repository is a work-in-progress implementation of the DICE 2016R model, originally created in GAMS and described [here](https://sites.google.com/site/williamdnordhaus/dice-rice) and in the following paper:
+This repository is a work-in-progress implementation of the DICE 2016R2 model, originally created in GAMS and described [here](https://sites.google.com/site/williamdnordhaus/dice-rice) and in the following paper:
 
 Nordhaus, William. 2018. "Projections and Uncertainties about Climate Change in an Era of Minimal Climate Policies." American Economic Journal: Economic Policy, 10 (3): 333-60.
 

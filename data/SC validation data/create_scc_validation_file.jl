@@ -12,7 +12,7 @@ specs = Dict([
     :year => [2020, 2050],
     :eta => [0, 1.5],
     :prtp => [0.015, 0.03],
-    :last_year => [2200, 2305],
+    :last_year => [2300, 2510],
 ])
 
 results = DataFrame(year = [], eta = [], prtp = [], last_year = [], SC = [])

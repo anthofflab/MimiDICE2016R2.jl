@@ -95,7 +95,7 @@ using MimiDICE2016R2: getparams
 
         # Test with a modified model 
         m = MimiDICE2016R2.get_model()
-        update_param!(m, :t2xco2, 5)
+        update_param!(m, :climatedynamics, :t2xco2, 5)
         scc4 = MimiDICE2016R2.compute_scc(m, year=2020)
         @test scc4 > scc1   # Test that a higher value of climate sensitivty makes the SCC bigger
 
@@ -117,9 +117,9 @@ using MimiDICE2016R2: getparams
 
         atol = 1e-6 # TODO what is a reasonable tolerance given we test on a few different machines etc.
 
-        # Test several validation configurations against the pre-saved values from MimiDICE2013
+        # Test several validation configurations against the pre-saved values from previous version MimiDICE2016R2
         specs = Dict([
-            :year => [2020, 2050],
+            :year => [2020],
             :eta => [0, 1.5],
             :prtp => [0.015, 0.03],
             :last_year => [2200, 2300],

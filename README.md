@@ -6,6 +6,8 @@ Nordhaus, William. 2018. "Projections and Uncertainties about Climate Change in 
 
 **As of now this is a WIP, as we are still working on getting testing of our outputs to properly match the outputs of the GAMS model runs. Anyone interested in helping with this effort is encouraged to reach out!**
 
+As described in  Nordhaus, William. 2018. "Projections and Uncertainties about Climate Change in an Era of Minimal Climate Policies." American Economic Journal: Economic Policy, 10 (3): 333-60 the only difference between the difference between this repository and [MimiDICE2016]() is the damage function parameter setting of the `a2` damage quadratic term parameter to 0.0027 as opposed to 0.00236 as set in DICE2016R.
+
 ## Software Requirements
 
 You need to install [Julia 1.1.0](https://julialang.org) or newer to run this model. You can download Julia from http://julialang.org/downloads/.

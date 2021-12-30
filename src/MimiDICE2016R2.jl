@@ -66,9 +66,26 @@ function constructdice(params)
     #--------------------------------------------------------------------------
     # Set external parameter values 
     #--------------------------------------------------------------------------
-    for (name, value) in params
-        set_param!(m, name, value)
+    # Set unshared parameters - name is a Tuple{Symbol, Symbol} of (component_name, param_name)
+    for (name, value) in params[:unshared]
+        update_param!(m, name[1], name[2], value)
     end
+    
+    # Set shared parameters - name is a Symbol representing the param_name, here
+    # we will create a shared model parameter with the same name as the component
+    # parameter and then connect our component parameters to this shared model parameter
+    add_shared_param!(m, :fco22x, params[:shared][:fco22x]) #Forcings of equilibrium CO2 doubling (Wm-2)
+    connect_param!(m, :climatedynamics, :fco22x, :fco22x)
+    connect_param!(m, :radiativeforcing, :fco22x, :fco22x)
+
+    add_shared_param!(m, :l, params[:shared][:l], dims = [:time]) #Level of population and labor (millions)
+    connect_param!(m, :grosseconomy, :l, :l)
+    connect_param!(m, :neteconomy, :l, :l)
+    connect_param!(m, :welfare, :l, :l)
+
+    add_shared_param!(m, :MIU, params[:shared][:MIU], dims = [:time]) #Optimized emission control rate results from DICE2016R (base case)
+    connect_param!(m, :neteconomy, :MIU, :MIU)
+    connect_param!(m, :emissions, :MIU, :MIU)
     
     return m
 

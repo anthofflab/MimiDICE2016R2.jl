@@ -5,11 +5,11 @@ using Distributions
 # provided by the AEJ : https://www.aeaweb.org/articles?id=10.1257/pol.20170046
 
 dice_default_mcs = @defsim begin
-    t2xco2 = LogNormal(1.106, 0.2646)
-	ga0 = Normal(0.076, 0.056)
-	gsigma1 = Normal(-0.0152, 0.0032)
-	mueq = LogNormal(5.851, 0.2649)
-	a2 = Normal(0.00227, 0.001135)
+    climatedynamics.t2xco2 = LogNormal(1.106, 0.2646)
+	totalfactorproductivity.ga0 = Normal(0.076, 0.056)
+	emissions.gsigma1 = Normal(-0.0152, 0.0032)
+	co2cycle.mueq = LogNormal(5.851, 0.2649)
+	damages.a2 = Normal(0.00227, 0.001135)
 
     # save(damages.DAMAGES)
 	# save(grosseconomy.YGROSS)
